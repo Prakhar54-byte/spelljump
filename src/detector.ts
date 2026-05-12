@@ -32,6 +32,7 @@ const knownCorrections = new Map<string, KnownCorrection>([
 	['grammer', { fix: 'grammar', message: 'Common spelling mistake.' }],
 	['langauge', { fix: 'language', message: 'Letters appear swapped.' }],
 	['funtion', { fix: 'function', message: 'Possible missing character.' }],
+	['naame', { fix: 'name', message: 'Possible extra character.' }],
 ]);
 
 // 🦇 DC Batman Easter Eggs — hidden treats for fans who type these words
@@ -113,12 +114,18 @@ export function detectLowLevelTypos(text: string): Typo[] {
 
 function findAllSuspiciousRepeats(word: string): number[] {
 	const indices: number[] = [];
+	let inRepeatRun = false;
 	for (let index = 1; index < word.length; index += 1) {
 		const current = word[index].toLowerCase();
 		const previous = word[index - 1].toLowerCase();
 		if (current === previous && !isAllowedDoubleLetter(word, index - 1)) {
-			// Return the index of the first character in the repeated pair
-			indices.push(index - 1);
+			if (!inRepeatRun) {
+				// Only report the first position of a consecutive repeat run
+				indices.push(index - 1);
+				inRepeatRun = true;
+			}
+		} else {
+			inRepeatRun = false;
 		}
 	}
 	return indices;
