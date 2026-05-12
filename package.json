@@ -1,0 +1,88 @@
+{
+  "name": "spelljump",
+  "displayName": "SpellJump — AI Typo Jumper 🦇",
+  "description": "Detects spelling mistakes in real time and jumps the cursor to the exact error. Includes DC Batman easter eggs!",
+  "version": "0.1.0",
+  "publisher": "prakhar-iitj",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prakhar-iitj/spelljump"
+  },
+  "homepage": "https://github.com/prakhar-iitj/spelljump#readme",
+  "keywords": [
+    "spell",
+    "typo",
+    "spellcheck",
+    "cursor",
+    "jump",
+    "batman",
+    "easter-egg"
+  ],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Linters",
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "spelljump.jumpToNext",
+        "title": "SpellJump: Jump to Next Typo"
+      },
+      {
+        "command": "spelljump.jumpToPrevious",
+        "title": "SpellJump: Jump to Previous Typo"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "spelljump.jumpToNext",
+        "key": "ctrl+shift+j",
+        "mac": "cmd+shift+j",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "spelljump.jumpToPrevious",
+        "key": "ctrl+shift+k",
+        "mac": "cmd+shift+k",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run package",
+    "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.85.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
+    "esbuild": "^0.27.3",
+    "eslint": "^9.39.3",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1"
+  },
+  "dependencies": {
+    "nspell": "^2.1.5"
+  }
+}

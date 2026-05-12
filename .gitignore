@@ -1,0 +1,15 @@
+out
+dist
+node_modules
+.vscode-test/
+*.vsix
+*.pdf
+*.docx
+.codex
+.venv
+.claude
+.uv-cached 
+model/
+*.pt
+*.safetensors
+*.bin
