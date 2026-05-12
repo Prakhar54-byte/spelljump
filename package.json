@@ -1,21 +1,23 @@
 {
   "name": "spelljump",
   "displayName": "SpellJump — AI Typo Jumper 🦇",
-  "description": "Detects spelling mistakes in real time and jumps the cursor to the exact error. Includes DC Batman easter eggs!",
-  "version": "0.1.0",
+  "description": "Detects spelling mistakes in real time and jumps the cursor to the exact error. Features adaptive learning that remembers your custom vocabulary. Includes DC Batman easter eggs!",
+  "version": "0.2.0",
   "publisher": "prakhar-iitj",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/prakhar-iitj/spelljump"
+    "url": "https://github.com/Prakhar54-byte/spelljump"
   },
-  "homepage": "https://github.com/prakhar-iitj/spelljump#readme",
+  "homepage": "https://github.com/Prakhar54-byte/spelljump#readme",
   "keywords": [
     "spell",
     "typo",
     "spellcheck",
     "cursor",
     "jump",
+    "adaptive",
+    "learning",
     "batman",
     "easter-egg"
   ],
@@ -34,11 +36,38 @@
     "commands": [
       {
         "command": "spelljump.jumpToNext",
-        "title": "SpellJump: Jump to Next Typo"
+        "title": "SpellJump: Jump to Next Typo",
+        "icon": "$(arrow-right)"
       },
       {
         "command": "spelljump.jumpToPrevious",
-        "title": "SpellJump: Jump to Previous Typo"
+        "title": "SpellJump: Jump to Previous Typo",
+        "icon": "$(arrow-left)"
+      },
+      {
+        "command": "spelljump.toggleAdaptiveLearning",
+        "title": "SpellJump: Toggle Adaptive Learning On/Off",
+        "icon": "$(brain)"
+      },
+      {
+        "command": "spelljump.addWordToGlobalDictionary",
+        "title": "SpellJump: Add Word to Global Dictionary",
+        "icon": "$(globe)"
+      },
+      {
+        "command": "spelljump.addWordToWorkspaceDictionary",
+        "title": "SpellJump: Add Word to Workspace Dictionary",
+        "icon": "$(folder)"
+      },
+      {
+        "command": "spelljump.forgetWord",
+        "title": "SpellJump: Remove Word from Dictionary",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "spelljump.viewDictionary",
+        "title": "SpellJump: View Learned Dictionary",
+        "icon": "$(book)"
       }
     ],
     "keybindings": [
@@ -54,7 +83,24 @@
         "mac": "cmd+shift+k",
         "when": "editorTextFocus"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "SpellJump",
+      "properties": {
+        "spelljump.adaptiveLearning.enabled": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "**Enable Adaptive Learning** — When `true`, SpellJump tracks words you type repeatedly without correcting. Once a word reaches the auto-learn threshold, it is added to your personal dictionary and no longer flagged as a typo."
+        },
+        "spelljump.adaptiveLearning.autoLearnThreshold": {
+          "type": "number",
+          "default": 3,
+          "minimum": 1,
+          "maximum": 100,
+          "markdownDescription": "**Auto-Learn Threshold** — Number of times a word must appear unfixed before SpellJump automatically adds it to your global dictionary. Set higher for more conservative learning."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run package",
