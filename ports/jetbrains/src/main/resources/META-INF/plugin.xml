@@ -1,0 +1,43 @@
+<idea-plugin>
+    <id>com.github.prakhariitj.spelljump</id>
+    <name>SpellJump 🦇</name>
+    <vendor email="prakhar@iitj.ac.in" url="https://github.com/Prakhar54-byte/spelljump">
+        Prakhar, IIT Jodhpur
+    </vendor>
+    <version>0.2.0</version>
+
+    <description><![CDATA[
+        <b>SpellJump</b> — AI-powered typo jumper for JetBrains IDEs.<br><br>
+        Press <b>Ctrl+Shift+J</b> to jump your cursor directly inside a misspelled word.
+        Press <b>Ctrl+Shift+K</b> to jump backward.<br><br>
+        Features real-time wavy underlines, quick-fix replacements, and... hidden DC Batman easter eggs 🦇
+        Try typing <code>batman</code> or <code>joker</code> in any file!
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <localInspection
+            language=""
+            displayName="SpellJump — Typo detected"
+            groupName="SpellJump 🦇"
+            enabledByDefault="true"
+            level="WARNING"
+            implementationClass="com.github.prakhariitj.spelljump.SpellJumpInspection"/>
+    </extensions>
+
+    <actions>
+        <action id="SpellJump.JumpNext"
+                class="com.github.prakhariitj.spelljump.SpellJumpNextAction"
+                text="SpellJump: Jump to Next Typo"
+                description="Jump cursor to the next detected typo">
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift J"/>
+        </action>
+        <action id="SpellJump.JumpPrevious"
+                class="com.github.prakhariitj.spelljump.SpellJumpPreviousAction"
+                text="SpellJump: Jump to Previous Typo"
+                description="Jump cursor to the previous detected typo">
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift K"/>
+        </action>
+    </actions>
+</idea-plugin>
