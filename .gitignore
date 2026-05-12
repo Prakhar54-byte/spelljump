@@ -1,15 +1,42 @@
-out
-dist
-node_modules
+# ── Build outputs ─────────────────────────────────────────────────────────────
+out/
+dist/
+
+# ── Dependencies ───────────────────────────────────────────────────────────────
+node_modules/
+
+# ── VS Code test infrastructure ────────────────────────────────────────────────
 .vscode-test/
+.vscode-test.mjs
+
+# ── Packaged extension ─────────────────────────────────────────────────────────
 *.vsix
-*.pdf
-*.docx
-.codex
-.venv
-.claude
-.uv-cached 
+
+# ── ML model artifacts ─────────────────────────────────────────────────────────
 model/
 *.pt
 *.safetensors
 *.bin
+
+# ── Training & runtime logs ────────────────────────────────────────────────────
+*.log
+nohup.out
+
+# ── Python environment ─────────────────────────────────────────────────────────
+.venv/
+.uv-cache/
+.uv-cached
+
+# ── Documentation / design blobs ──────────────────────────────────────────────
+*.pdf
+*.docx
+
+# ── IDE / tool private dirs ────────────────────────────────────────────────────
+.codex
+.claude
+.kilo/
+.github/
+
+# ── Misc editor indexes ────────────────────────────────────────────────────────
+*.vsidx
+*.kiro
