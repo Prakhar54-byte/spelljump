@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/Prakhar54-byte/spelljump"
   },
-  "homepage": "https://github.com/Prakhar54-byte/spelljump#readme",
+  "homepage": "https://open-vsx.org/extension/prakhar-iitj/spelljump",
   "keywords": [
     "spell",
     "typo",
@@ -68,6 +68,11 @@
         "command": "spelljump.viewDictionary",
         "title": "SpellJump: View Learned Dictionary",
         "icon": "$(book)"
+      },
+      {
+        "command": "spelljump.rateExtension",
+        "title": "SpellJump: ⭐ Rate this extension",
+        "icon": "$(star-full)"
       }
     ],
     "keybindings": [

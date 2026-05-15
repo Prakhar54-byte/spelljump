@@ -43,6 +43,11 @@ export function activate(context: vscode.ExtensionContext) {
 			state.promptForgetWord(word),
 		),
 		vscode.commands.registerCommand('spelljump.viewDictionary', () => state.viewDictionary()),
+		vscode.commands.registerCommand('spelljump.rateExtension', () => {
+			void vscode.env.openExternal(
+				vscode.Uri.parse('https://open-vsx.org/extension/prakhar-iitj/spelljump/reviews'),
+			);
+		}),
 
 		// Code Action provider — right-click on a flagged word
 		vscode.languages.registerCodeActionsProvider(

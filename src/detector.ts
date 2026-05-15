@@ -132,9 +132,10 @@ function findAllSuspiciousRepeats(word: string): number[] {
 }
 
 function isAllowedDoubleLetter(word: string, index: number): boolean {
-	const pair = word.slice(index, index + 2).toLowerCase();
-	const allowed = new Set(['ll', 'ss', 'ee', 'oo', 'tt', 'ff', 'rr', 'nn', 'mm', 'pp', 'cc', 'dd']);
-	return allowed.has(pair);
+	// Any double-letter pair is technically possible in English or code.
+	// We should only flag if they are triple or more (handled in findAllSuspiciousRepeats).
+	// By returning true here, we allow all doubles.
+	return true;
 }
 
 function preserveCase(source: string, replacement: string): string {

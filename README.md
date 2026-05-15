@@ -138,6 +138,16 @@ Open VSX is the open-source alternative to the Microsoft Marketplace (used by Cu
    ```
 ---
 
+## 💬 Feedback & Support
+
+I'd love to hear your thoughts on SpellJump! 
+
+- **⭐ Rate the Extension:** If you're enjoying SpellJump, please consider [leaving a review on Open VSX](https://open-vsx.org/extension/prakhar-iitj/spelljump/reviews).
+- **🐛 Report a Bug:** Found a typo that wasn't caught, or a bug in the extension? [Open an issue on GitHub](https://github.com/Prakhar54-byte/spelljump/issues).
+- **💡 Feature Requests:** Have an idea for a new feature? Let me know in the [GitHub Issues](https://github.com/Prakhar54-byte/spelljump/issues).
+
+---
+
 ## 🧑‍💻 Contributing
 
 1. Fork the repo and create your feature branch (`git checkout -b feat/my-feature`).

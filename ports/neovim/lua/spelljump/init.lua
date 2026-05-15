@@ -37,11 +37,7 @@ local BATMAN_EGGS = {
   batcave  = { fix = "The Batcave",             message = "🦇 Accessing the Batcomputer... Typo detected!" },
 }
 
--- ─── Allowed double-letter pairs (same as isAllowedDoubleLetter in TS) ───────
-local ALLOWED_DOUBLES = {
-  ll=true, ss=true, ee=true, oo=true, tt=true,
-  ff=true, rr=true, nn=true, mm=true, pp=true, cc=true, dd=true,
-}
+
 
 -- ─── Core detection logic (mirrors findAllSuspiciousRepeats) ─────────────────
 local function find_suspicious_repeats(word)
@@ -50,10 +46,13 @@ local function find_suspicious_repeats(word)
   for i = 2, #word do
     local cur  = word:sub(i, i):lower()
     local prev = word:sub(i-1, i-1):lower()
-    local pair = word:sub(i-1, i):lower()
-    if cur == prev and not ALLOWED_DOUBLES[pair] then
-      if not in_run then
-        table.insert(indices, i - 1) -- 1-indexed position of first char
+    
+    -- Check for triple repeat (e.g., baaaad)
+    local is_triple = i > 2 and word:sub(i-2, i-2):lower() == cur
+    
+    if cur == prev then
+      if is_triple and not in_run then
+        table.insert(indices, i - 2) -- 1-indexed position of first char in run
         in_run = true
       end
     else
