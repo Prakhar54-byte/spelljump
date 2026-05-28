@@ -6,6 +6,44 @@ SpellJump is a VS Code / Cursor extension that detects spelling mistakes in real
 
 ---
 
+## ⚠️ Availability (Important)
+
+SpellJump is now published exclusively on the Open VSX registry. It is available out-of-the-box for Open VSX–compatible IDEs such as Antigravity IDE, VSCodium, Theia, Eclipse Che, Gitpod, Cursor, and other editors that integrate Open VSX.
+
+- **Not on the Microsoft Marketplace:** This extension is not currently published to the Visual Studio Marketplace.
+
+If you use Visual Studio Code or other editors that expect Marketplace-published extensions, you can still install SpellJump manually by downloading the `.vsix` from Open VSX and installing it locally (steps below).
+
+### Quick install for VS Code / other editors (download & install `.vsix`)
+
+1. Open the Open VSX page for SpellJump: https://open-vsx.org/extension/prakhar-iitj/spelljump
+2. Click **Download .vsix** (or use the API/download link on the page).
+3. Install the downloaded file:
+
+```bash
+# VS Code
+code --install-extension ./spelljump-0.1.0.vsix
+
+# VSCodium
+codium --install-extension ./spelljump-0.1.0.vsix
+
+# Or use your IDE's extension-install UI to upload the .vsix
+```
+
+If you want the extension to appear in an IDE's official registry for automatic installs, consider publishing to that registry (example: Visual Studio Marketplace) — but currently SpellJump is only maintained on Open VSX.
+
+### Adding a README animation (Batman cave)
+
+You can add a small animated GIF that shows bats emerging from a cave for flair. Put the GIF at `assets/batcave-bats.gif` and include it like this:
+
+```markdown
+![Batcave — bats emerge](assets/batcave-bats.gif)
+```
+
+If you don't have a GIF handy, the `assets/` path and the markdown line above act as a placeholder; add the GIF and commit it to show the animation on the README.
+
+---
+
 ## ✨ Features
 
 | Feature | Shortcut |
@@ -109,34 +147,6 @@ The extension looks for `model/spelljump.onnx`. If `onnxruntime-node` and the ON
 
 ---
 
-## 📦 Deployment & Publishing
-
-If you want to share your extension with the world, you have three great options.
-
-### Option 1: GitHub Releases (Easiest)
-You can distribute the `.vsix` file directly through GitHub.
-1. Run `vsce package` to generate `spelljump-0.1.0.vsix`.
-2. Go to your GitHub repository and click **Releases** -> **Draft a new release**.
-3. Upload the `.vsix` file as an asset. Users can download it and install it manually via `code --install-extension`.
-
-### Option 2: Open VSX Registry (Recommended Alternative)
-Open VSX is the open-source alternative to the Microsoft Marketplace (used by Cursor, VSCodium, Gitpod). **It only requires a GitHub account!**
-1. Install the CLI: `npm install -g ovsx`
-2. Log in to [open-vsx.org](https://open-vsx.org/) with your GitHub account.
-3. Go to your Settings page and generate an Access Token.
-4. Create a namespace matching your publisher ID (`prakhar-iitj`).
-5. Publish: `ovsx publish spelljump-0.1.0.vsix -p <YOUR_TOKEN>`
-
-### Option 3: VS Code Marketplace (Microsoft Account Required)
-1. Install the CLI: `npm install -g @vscode/vsce`
-2. Create a publisher account at the [Visual Studio Marketplace](https://marketplace.visualstudio.com/manage).
-3. Generate a Personal Access Token from [Azure DevOps](https://dev.azure.com/).
-4. Log in and publish:
-   ```bash
-   vsce login <your-publisher-id>
-   vsce publish
-   ```
----
 
 ## 💬 Feedback & Support
 
