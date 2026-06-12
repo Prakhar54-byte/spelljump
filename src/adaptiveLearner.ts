@@ -134,6 +134,13 @@ export class AdaptiveLearner {
 					}
 				}
 			}
+
+			// Pruning logic: keep workspaceDict capped to prevent memory/storage issues
+			if (this.workspaceDict.size > 2000) {
+				const words = [...this.workspaceDict].slice(-2000);
+				this.workspaceDict = new Set(words);
+			}
+
 			// Persist once after bulk scan
 			void this.saveState();
 		} catch {
@@ -163,7 +170,7 @@ export class AdaptiveLearner {
 		this.freqMap = new Map(freqEntries);
 	}
 
-	private async saveState(): Promise<void> {
+	public async saveState(): Promise<void> {
 		await this.context.globalState.update(GLOBAL_DICT_KEY, [...this.globalDict]);
 		await this.context.workspaceState.update(WORKSPACE_DICT_KEY, [...this.workspaceDict]);
 		await this.context.globalState.update(FREQ_KEY, [...this.freqMap.entries()]);

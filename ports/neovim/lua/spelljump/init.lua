@@ -5,6 +5,7 @@
 -- =============================================================================
 
 local M = {}
+local uv = vim.uv or vim.loop
 
 -- ─── Known Corrections (same map as detector.ts) ─────────────────────────────
 local KNOWN_CORRECTIONS = {
@@ -228,7 +229,7 @@ function M.setup(opts)
         state.timer:stop()
         state.timer:close()
       end
-      state.timer = vim.loop.new_timer()
+      state.timer = uv.new_timer()
       state.timer:start(debounce_ms, 0, vim.schedule_wrap(function()
         refresh()
       end))

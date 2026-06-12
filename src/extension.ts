@@ -7,12 +7,14 @@ import { jumpToTypo } from './jumper';
 import { SpellJumpStatusBar } from './statusBar';
 
 const debounceMs = 350;
+let activeLearner: AdaptiveLearner | undefined;
 
 export function activate(context: vscode.ExtensionContext) {
 	console.log('🦇 SpellJump is now active!');
 
 	// ── Core objects ──────────────────────────────────────────────────────────
 	const learner = new AdaptiveLearner(context);
+	activeLearner = learner;
 	const detector = new HybridTypoDetector(context);
 	detector.learner = learner; // inject singleton
 
@@ -83,12 +85,16 @@ export function activate(context: vscode.ExtensionContext) {
 	statusBar.updateAdaptiveMode(isAdaptiveLearningEnabled());
 }
 
-export function deactivate() {}
+export function deactivate() {
+	if (activeLearner) {
+		void activeLearner.saveState();
+	}
+}
 
 // ─── Controller ───────────────────────────────────────────────────────────────
 class SpellJumpController {
 	private readonly findings = new Map<string, Typo[]>();
-	private debounce?: NodeJS.Timeout;
+	private readonly debounces = new Map<string, NodeJS.Timeout>();
 
 	public constructor(
 		private readonly detector: TypoDetector,
@@ -103,13 +109,19 @@ class SpellJumpController {
 			return;
 		}
 
-		if (this.debounce) {
-			clearTimeout(this.debounce);
+		const key = document.uri.toString();
+		const existing = this.debounces.get(key);
+		if (existing) {
+			clearTimeout(existing);
 		}
 
-		this.debounce = setTimeout(() => {
-			void this.refresh(document);
-		}, debounceMs);
+		this.debounces.set(
+			key,
+			setTimeout(() => {
+				void this.refresh(document);
+				this.debounces.delete(key);
+			}, debounceMs),
+		);
 	}
 
 	public async refresh(document: vscode.TextDocument | undefined): Promise<void> {
@@ -119,7 +131,7 @@ class SpellJumpController {
 			return;
 		}
 
-		const typos = await this.detector.detect(document.getText());
+		const typos = await this.detector.detect(document.getText(), document.uri.toString());
 		this.findings.set(document.uri.toString(), typos);
 		this.diagnostics.set(document.uri, toDiagnostics(document, typos));
 

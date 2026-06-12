@@ -17,6 +17,7 @@ export class HybridTypoDetector implements TypoDetector {
 	private readonly fallback = new LowLevelTypoDetector();
 	private readonly modelPath: string;
 	private session?: Promise<InferenceSession | undefined>;
+	private readonly lastActiveTypos = new Map<string, Set<string>>();
 
 	/** Injected from extension.ts so the learner is a singleton. */
 	public learner?: AdaptiveLearner;
@@ -25,13 +26,13 @@ export class HybridTypoDetector implements TypoDetector {
 		this.modelPath = path.join(context.extensionPath, 'model', 'spelljump.onnx');
 	}
 
-	public async detect(text: string): Promise<Typo[]> {
+	public async detect(text: string, documentUri?: string): Promise<Typo[]> {
 		const session = await this.getSession();
 		const rawTypos = session
 			? await this.detectWithModel(session, text)
 			: await this.fallback.detect(text);
 
-		return this.applyAdaptiveFilter(rawTypos);
+		return this.applyAdaptiveFilter(rawTypos, documentUri);
 	}
 
 	// ─── Adaptive filter ───────────────────────────────────────────────────────
@@ -42,22 +43,34 @@ export class HybridTypoDetector implements TypoDetector {
 	 * Words that are NOT suppressed have their "seen" count bumped so the
 	 * auto-learning threshold can eventually trigger.
 	 */
-	private applyAdaptiveFilter(typos: Typo[]): Typo[] {
+	private applyAdaptiveFilter(typos: Typo[], documentUri?: string): Typo[] {
 		if (!this.learner || !isAdaptiveLearningEnabled()) {
 			return typos;
 		}
 
 		const learner = this.learner;
 		const filtered: Typo[] = [];
+		const currentWords = new Set<string>();
+
+		const prevWords = documentUri ? (this.lastActiveTypos.get(documentUri) ?? new Set<string>()) : new Set<string>();
 
 		for (const typo of typos) {
-			if (learner.isKnown(typo.word)) {
+			const lower = typo.word.toLowerCase();
+			if (learner.isKnown(lower)) {
 				// Suppressed — word is in the user's personal dictionary
 				continue;
 			}
-			// Word is flagged — record that the user typed it without correcting it
-			learner.recordSeen(typo.word);
+			currentWords.add(lower);
+
+			// Only record as seen if it wasn't already a typo in the previous run of this document
+			if (!prevWords.has(lower)) {
+				learner.recordSeen(typo.word);
+			}
 			filtered.push(typo);
+		}
+
+		if (documentUri) {
+			this.lastActiveTypos.set(documentUri, currentWords);
 		}
 
 		return filtered;

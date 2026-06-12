@@ -11,7 +11,7 @@ export interface Typo {
 }
 
 export interface TypoDetector {
-	detect(text: string): Promise<Typo[]>;
+	detect(text: string, documentUri?: string): Promise<Typo[]>;
 }
 
 interface KnownCorrection {
@@ -134,8 +134,14 @@ function findAllSuspiciousRepeats(word: string): number[] {
 function isAllowedDoubleLetter(word: string, index: number): boolean {
 	// Any double-letter pair is technically possible in English or code.
 	// We should only flag if they are triple or more (handled in findAllSuspiciousRepeats).
-	// By returning true here, we allow all doubles.
-	return true;
+	const char = word[index].toLowerCase();
+	const prevChar = index > 0 ? word[index - 1].toLowerCase() : null;
+	const nextChar2 = index + 2 < word.length ? word[index + 2].toLowerCase() : null;
+
+	if (char === prevChar || char === nextChar2) {
+		return false; // Not allowed (part of a triple run or more)
+	}
+	return true; // Allowed double letter
 }
 
 function preserveCase(source: string, replacement: string): string {

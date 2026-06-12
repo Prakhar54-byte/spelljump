@@ -22,10 +22,10 @@ If you use Visual Studio Code or other editors that expect Marketplace-published
 
 ```bash
 # VS Code
-code --install-extension ./spelljump-0.1.0.vsix
+code --install-extension ./spelljump-0.2.0.vsix
 
 # VSCodium
-codium --install-extension ./spelljump-0.1.0.vsix
+codium --install-extension ./spelljump-0.2.0.vsix
 
 # Or use your IDE's extension-install UI to upload the .vsix
 ```
@@ -96,7 +96,7 @@ Type any of the following words in your editor and watch what happens...
 ### From a `.vsix` file
 
 ```bash
-code --install-extension spelljump-0.1.0.vsix
+code --install-extension spelljump-0.2.0.vsix
 ```
 
 ---
